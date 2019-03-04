@@ -2,4 +2,4 @@
 
 [![Build Status](https://travis-ci.org/Stanislav2014/project-lvl3-s410.svg?branch=master)](https://travis-ci.org/Stanislav2014/project-lvl3-s410)
 
-[ссылка на ресурс webanalizer ->>>](https://webanalizer.herokuapp.com)
+[ссылка на ресурс webanalizer ->>> ](https://webanalizer.herokuapp.com)
