@@ -5,7 +5,7 @@ test:
 	composer run-script test
 
 lint:
-	composer run-script phpcs -- --standard=PSR12 resources tests 
+	composer run-script phpcs -- --standard=PSR12 resources 
 
 lint-fix:
 	composer run-script phpcbf -- --standard=PSR12 resourses
