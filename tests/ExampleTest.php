@@ -17,5 +17,13 @@ class ExampleTest extends TestCase
         $this->assertEquals(200, $this->response->status());
     }
 
-    
+    public function testDatabase()
+{
+    // Make call to application...
+    $this->post('/domains')
+
+    $this->seeInDatabase('domains', ['name' => 'http://ya.ru']);
+}
+
+
 }

@@ -13,44 +13,22 @@ use Illuminate\Http\Request;
 |
 */
 
-//$router->get('/', function () {
-//    return view('home', ['name' => 'James']);
-//});
+Route::get('/', [
+    'as' => 'create',
+    'uses' => 'DomainsController@create'
+]);
 
-Route::get('/', 'DomainsController@create');
+Route::post('/domains', [
+    'as' => 'store',
+    'uses' => 'DomainsController@store'
+]);
 
-Route::post('/domains', 'DomainsController@store');
-//function (Request $request) {
-  //  $name = $request->input('name');
-    //DB::table('domains')
-      //  ->updateOrInsert(
-        //    ['name' => $name], ['name' => $name]
-        //);
-    //var_dump($name);
-    //$result = DB::table('domains')
-    //    ->select('id')
-     //   ->where('domains.name', 'LIKE', $name)
-     //   ->get();
-  //  $getId = $result[0]->id;
-//
-    //var_dump($getId);
+Route::get('/domains', [
+    'as' => 'list',
+    'uses' => 'DomainsController@list'
+]);
 
-    //return redirect("/domains/{$getId}");//->route('domains', ['id' => $getId]);
-//});
-
-$router->get('/domains', function () {
-    $domains = DB::table('domains')
-        ->select()
-        ->get();
-        
-    return view('show', ['domains' => $domains]);
-});
-
-$router->get('/domains/{id}', function ($id) {
-    $domain = DB::table('domains')
-        ->select()
-        ->where('domains.id', 'LIKE', $id)
-        ->get();
-    var_dump($domain);
-    return view('layouts/domainInfo', ['domain' => $domain]);
-});
+Route::get('/domains/{id}', [
+    'as' => 'show',
+    'uses' => 'DomainsController@show'
+]);
