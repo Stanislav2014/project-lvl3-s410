@@ -16,10 +16,6 @@ class DomainsController extends Controller
 
     public function store(Request $request)
     {
-        //$validate = $this->validate($request, [
-        //    'name' => 'url',
-        //]);
-    
         
         $name = $request->input('name');
         DB::table('domains')
@@ -36,7 +32,7 @@ class DomainsController extends Controller
 
         var_dump($getId);
 
-        return redirect("/domains/{$getId}");//->route('domains', ['id' => $getId]);
+        return redirect("/domains/{$getId}");
     }
 
     public function list(Request $request)
