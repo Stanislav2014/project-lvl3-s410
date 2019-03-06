@@ -16,4 +16,6 @@ class ExampleTest extends TestCase
 
         $this->assertEquals(200, $this->response->status());
     }
+
+    
 }
