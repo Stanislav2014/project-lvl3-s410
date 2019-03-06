@@ -44,7 +44,7 @@ class DomainsController extends Controller
                 ->get();
                 
             return view('show', ['domains' => $domains]);
-    } 
+    }
 
     public function showDomain($id)
     {
@@ -54,8 +54,5 @@ class DomainsController extends Controller
             ->get();
         //var_dump($domain);
         return view('layouts/domainInfo', ['domain' => $domain]);
-    } 
-       
-
-
+    }
 }

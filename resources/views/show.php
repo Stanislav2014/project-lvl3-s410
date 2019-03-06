@@ -13,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-  <?php foreach ($domains as $domain) : ?>
+    <?php foreach ($domains as $domain) : ?>
     <tr>
       <th scope="row"><?= $domain->id ?></th>
       <td><?= $domain->name ?></td>
