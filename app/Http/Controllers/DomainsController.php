@@ -24,7 +24,7 @@ class DomainsController extends Controller
             'name' => 'unique:domains'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect()->route('domainsCreate');
         }
 
@@ -43,7 +43,7 @@ class DomainsController extends Controller
 
         //var_dump($getId);
 
-        return redirect()->route('domainsShow', ['id'=> $id]);
+        return redirect()->route('domainsShow', ['id' => $id]);
     }
 
     public function domainsIndex()
