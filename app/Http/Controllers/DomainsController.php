@@ -6,38 +6,47 @@ use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Validator;
 
 class DomainsController extends Controller
 {
    
-    public function createDomain()
+    public function domainsCreate(Request $request)
     {
-        return view('home');
+        //$errors = $request->input('errors') ?? null;
+
+        return view('create');// ['errors' => [$errors]]);
     }
 
-    public function storeDomain(Request $request)
+    public function domainsStore(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'unique:domains'
+        ]);
+
+        if($validator->fails()){
+            return redirect()->route('domainsCreate');
+        }
+
         $time = Carbon::now();
         $name = $request->input('name');
         DB::table('domains')
-        ->updateOrInsert(
-            ['name' => $name],
-            ['name' => $name,
-            'updated_at' => $time]
+        ->insert(
+            ['name' => $name, 'updated_at' => $time]
         );
         //var_dump($name);
         $result = DB::table('domains')
             ->select('id')
             ->where('domains.name', 'LIKE', $name)
             ->get();
-        $getId = $result[0]->id;
+        $id = $result[0]->id;
 
         //var_dump($getId);
 
-        return redirect("/domains/{$getId}");
+        return redirect()->route('domainsShow', ['id'=> $id]);
     }
 
-    public function listDomains(Request $request)
+    public function domainsIndex()
     {
             $domains = DB::table('domains')
                 ->select()
@@ -46,13 +55,13 @@ class DomainsController extends Controller
             return view('show', ['domains' => $domains]);
     }
 
-    public function showDomain($id)
+    public function domainsShow($id)
     {
-        $domain = DB::table('domains')
+        $domains = DB::table('domains')
             ->select()
             ->where('domains.id', 'LIKE', $id)
             ->get();
         //var_dump($domain);
-        return view('layouts/domainInfo', ['domain' => $domain]);
+        return view('show', ['domains' => $domains]);
     }
 }

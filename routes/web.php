@@ -14,21 +14,21 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', [
-    'as' => 'createDomain',
-    'uses' => 'DomainsController@createDomain'
+    'as' => 'domainsCreate',
+    'uses' => 'DomainsController@domainsCreate'
 ]);
 
 Route::post('/domains', [
-    'as' => 'storeDomain',
-    'uses' => 'DomainsController@storeDomain'
+    'as' => 'domainsStore',
+    'uses' => 'DomainsController@domainsStore'
 ]);
 
 Route::get('/domains', [
-    'as' => 'listDomains',
-    'uses' => 'DomainsController@listDomains'
+    'as' => 'domainsIndex',
+    'uses' => 'DomainsController@domainsIndex'
 ]);
 
 Route::get('/domains/{id}', [
-    'as' => 'showDomain',
-    'uses' => 'DomainsController@showDomain'
+    'as' => 'domainsShow',
+    'uses' => 'DomainsController@domainsShow'
 ]);

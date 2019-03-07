@@ -10,13 +10,16 @@ class DomainsHttpTest extends TestCase
      *
      * @return void
      */
-    public function testGetHome()
+    public function testRouteDomainsCreate()
     {
-        //$response = $this->get('/');
-        //$response->assertStatus(200);
-
         $this->get('/');
         $this->assertEquals(200, $this->response->status());
     }
+
+    //public function testRouteDomainsIndex()
+    //{
+    //    $this->get('/domains');
+    //    $this->assertEquals(200, $this->response->status());
+    //}
 
 }

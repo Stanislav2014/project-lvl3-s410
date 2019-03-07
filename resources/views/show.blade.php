@@ -1,8 +1,8 @@
 
-<html>
-  <body>
-<?php require 'navbar.php' ?>
 
+@extends('layouts.navbar')
+
+@section('content')
 <table class="table table-hover">
   <thead>
     <tr>
@@ -13,17 +13,17 @@
     </tr>
   </thead>
   <tbody>
-    <?php foreach ($domain as $item) : ?>
+    @foreach ($domains as $domain)
     <tr>
-      <th scope="row"><?= $item->id ?></th>
-      <td><?= $item->name ?></td>
-      <td><?= $item->created_at ?></td>
-      <td><?= $item->updated_at ?></td>
+      <th scope="row">{{ $domain->id }}</th>
+      <td>{{ $domain->name }}</td>
+      <td>{{ $domain->created_at }}</td>
+      <td>{{ $domain->updated_at }}</td>
     </tr>
-    <?php endforeach ?>
+    @endforeach
   </tbody>
 </table>
 
-
     </body>
 </html>
+@endsection

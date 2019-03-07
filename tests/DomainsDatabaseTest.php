@@ -10,7 +10,7 @@ class DomainsDatabaseTest extends TestCase
     public function testDatabase()
     {
         
-        $post = $this->post('/domains', ['name' => 'http://mail.ru']);
+        $this->post('/domains', ['name' => 'http://mail.ru']);
 
         $this->seeInDatabase('domains', ['name' => 'http://mail.ru']);
     }   
