@@ -14,14 +14,16 @@
     @foreach ($domains as $domain)
     <tr>
       <th scope="row">{{ $domain->id }}</th>
-      <td>{{ $domain->name }}</td>
+      <td><a href="{{ route('domains.show', ['id' => $domain->id]) }}">{{ $domain->name }}</a></td>
       <td>{{ $domain->created_at }}</td>
       <td>{{ $domain->updated_at }}</td>
     </tr>
     @endforeach
   </tbody>
 </table>
-
+@if (isset($paginate))
+    {{ $domains->links() }}
+@endif
     </body>
 </html>
 @endsection

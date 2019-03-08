@@ -56,10 +56,9 @@ class DomainsController extends Controller
     public function index()
     {
             $domains = DB::table('domains')
-                ->select()
-                ->get();
+                ->paginate(10);
                 
-            return view('show', ['domains' => $domains]);
+            return view('show', ['domains' => $domains, 'paginate' => 'true']);
     }
 
     public function show($id)
