@@ -11,42 +11,49 @@ use Validator;
 class DomainsController extends Controller
 {
    
-    public function domainsCreate(Request $request)
+    public function create(Request $request)
     {
         //$errors = $request->input('errors') ?? null;
 
         return view('create');// ['errors' => [$errors]]);
     }
 
-    public function domainsStore(Request $request)
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'unique:domains'
         ]);
 
+        //if ($validator->fails()) {
+        //    return redirect()->route('domains.create');
+        //}
+
         if ($validator->fails()) {
-            return redirect()->route('domainsCreate');
+            return view('create', ['errors' => $validator->errors()->all()]);
         }
 
         $time = Carbon::now();
         $name = $request->input('name');
-        DB::table('domains')
-        ->insert(
-            ['name' => $name, 'updated_at' => $time]
-        );
+        //DB::table('domains')
+        //->insert(
+        //    ['name' => $name, 'updated_at' => $time]
+        //);
         //var_dump($name);
-        $result = DB::table('domains')
-            ->select('id')
-            ->where('domains.name', 'LIKE', $name)
-            ->get();
-        $id = $result[0]->id;
+        $id = DB::table('domains')
+            //->select('id')
+            //->where('domains.name', $name)
+            //->get();
+            ->insertGetId([
+                'name' => $name, 'updated_at' => $time
+                ]);
+        //$id = $result[0]->id;
 
         //var_dump($getId);
 
-        return redirect()->route('domainsShow', ['id' => $id]);
+        return redirect()->route('domains.show', ['id' => $id]);
     }
 
-    public function domainsIndex()
+    public function index()
     {
             $domains = DB::table('domains')
                 ->select()
@@ -55,11 +62,11 @@ class DomainsController extends Controller
             return view('show', ['domains' => $domains]);
     }
 
-    public function domainsShow($id)
+    public function show($id)
     {
         $domains = DB::table('domains')
             ->select()
-            ->where('domains.id', 'LIKE', $id)
+            ->where('domains.id', $id)
             ->get();
         //var_dump($domain);
         return view('show', ['domains' => $domains]);

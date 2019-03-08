@@ -1,5 +1,4 @@
-<?php ?>
-@extends('layouts.navbar')
+@extends('layouts.app')
 
 @section('content')
 <table class="table table-hover">

@@ -22,11 +22,6 @@ return [
    
     'connections' => [
 
-        'testing' => [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-        ],
-
         'sqlite' => [
             'driver' => 'sqlite',
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
@@ -45,7 +40,7 @@ return [
             'schema' => env('DB_SCHEMA', 'public'),
             'sslmode' => env('DB_SSL_MODE', 'prefer'),
         ],
-
+        
     ],
 
     'migrations' => 'migrations',
