@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Container\Container;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Validator;
+use GuzzleHttp\Client;
+use Log;
 
 class DomainsController extends Controller
 {
    
     public function create(Request $request)
     {
-        //$errors = $request->input('errors') ?? null;
+        
 
-        return view('create');// ['errors' => [$errors]]);
+        return view('create');
     }
 
     public function store(Request $request)
@@ -24,31 +27,42 @@ class DomainsController extends Controller
             'name' => 'unique:domains'
         ]);
 
-        //if ($validator->fails()) {
-        //    return redirect()->route('domains.create');
-        //}
-
         if ($validator->fails()) {
             return view('create', ['errors' => $validator->errors()->all()]);
         }
 
-        $time = Carbon::now();
         $name = $request->input('name');
-        //DB::table('domains')
-        //->insert(
-        //    ['name' => $name, 'updated_at' => $time]
-        //);
-        //var_dump($name);
-        $id = DB::table('domains')
-            //->select('id')
-            //->where('domains.name', $name)
-            //->get();
-            ->insertGetId([
-                'name' => $name, 'updated_at' => $time
-                ]);
-        //$id = $result[0]->id;
 
-        //var_dump($getId);
+        //$client = HttpClientGuzzle::class ;
+        $container = Container::getInstance();
+        $client = $container->make('GuzzleHttp\Client');
+
+        try { 
+            throw new \Exception("{$name} is don't valide URI");
+            $response = $client->request('GET', $name);
+        } catch (\Exception $e) {
+            return view('create', ['errors' => [$e->getMessage()]]);
+        }
+        
+
+        $contentLength = $res->getHeader('content-length')[0] ?? '';
+
+        $responseCode = $res->getStatusCode();
+
+        $body = $res->getBody() ?? '';
+
+        Log::info($contentLength);
+        
+
+        $time = Carbon::now();
+        $id = DB::table('domains')
+                ->insertGetId([
+                    'name' => $name,
+                    'updated_at' => $time,
+                    'content_length' => $contentLength,
+                    'response_code' => $responseCode,
+                    'body' => $body
+                ]);
 
         return redirect()->route('domains.show', ['id' => $id]);
     }
@@ -67,7 +81,7 @@ class DomainsController extends Controller
             ->select()
             ->where('domains.id', $id)
             ->get();
-        //var_dump($domain);
+        
         return view('show', ['domains' => $domains]);
     }
 }
