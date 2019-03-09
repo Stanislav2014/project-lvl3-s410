@@ -18,9 +18,9 @@ class CreateDomainsTable extends Migration
             $table->string('name', 100)->unique();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at');
-            $table->integer('content_length', 255);
-            $table->integer('response_code', 255);
-            $table->string('body', 255);
+            $table->string('content_length');
+            $table->string('response_code');
+            $table->text('body');
         });
     }
 
