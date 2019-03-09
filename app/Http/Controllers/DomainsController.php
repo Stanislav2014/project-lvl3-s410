@@ -38,8 +38,7 @@ class DomainsController extends Controller
         $client = $container->make('GuzzleHttp\Client');
 
         try {
-            throw new \Exception("{$name} is don't valide URI");
-            $response = $client->request('GET', $name);
+            $res = $client->get($name);
         } catch (\Exception $e) {
             return view('create', ['errors' => [$e->getMessage()]]);
         }
