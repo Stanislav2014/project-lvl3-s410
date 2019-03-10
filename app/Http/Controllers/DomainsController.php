@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use Validator;
 use GuzzleHttp\Client;
 use Log;
+use DiDom\Document;
+use DiDom\Query;
 
 class DomainsController extends Controller
 {
