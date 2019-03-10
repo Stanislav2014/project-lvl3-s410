@@ -100,7 +100,7 @@ class DomainsController extends Controller
                 ->paginate(5);
                 
             return view('show', [
-                'domains' => $domains, 
+                'domains' => $domains,
                 'paginate' => 'true'
                 ]);
     }
