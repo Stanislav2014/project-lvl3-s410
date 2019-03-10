@@ -45,24 +45,50 @@ class DomainsController extends Controller
             return view('create', ['errors' => [$e->getMessage()]]);
         }
         
-
         $contentLength = $res->getHeader('content-length')[0] ?? '';
 
         $responseCode = $res->getStatusCode();
 
-        $body = $res->getBody() ?? '';
+        $body = $res->getBody()->getContents();
+
+        $document = new Document($body);
+
+        if ($document->has('h1')) {
+            $h1 = $document->first('h1')
+                           ->text();
+        } else {
+            $h1 = '';
+        }
+
+        if ($document->has('meta[name="keywords"]')) {
+            $keywords = $document->first('meta[name="keywords"]')
+                                 ->getAttribute('content');
+        } else {
+            $keywords = '';
+        }
+
+        if ($document->has('meta[name="desription"]')) {
+            $description = $document->first('meta[name="description"]')
+                                 ->getAttribute('content');
+        } else {
+            $description = '';
+        }
 
         Log::info($contentLength);
         
 
         $time = Carbon::now();
+
         $id = DB::table('domains')
                 ->insertGetId([
                     'name' => $name,
                     'updated_at' => $time,
                     'content_length' => $contentLength,
                     'response_code' => $responseCode,
-                    'body' => $body
+                    'body' => $body,
+                    'h1' => $h1,
+                    'keywords' => $keywords,
+                    'description' => $description
                 ]);
 
         return redirect()->route('domains.show', ['id' => $id]);
@@ -71,9 +97,12 @@ class DomainsController extends Controller
     public function index()
     {
             $domains = DB::table('domains')
-                ->paginate(10);
+                ->paginate(5);
                 
-            return view('show', ['domains' => $domains, 'paginate' => 'true']);
+            return view('show', [
+                'domains' => $domains, 
+                'paginate' => 'true'
+                ]);
     }
 
     public function show($id)
@@ -83,6 +112,9 @@ class DomainsController extends Controller
             ->where('domains.id', $id)
             ->get();
         
-        return view('show', ['domains' => $domains]);
+        return view('show', [
+            'domains' => $domains,
+            'moreInfo' => 'true'
+            ]);
     }
 }
